@@ -2,6 +2,7 @@ package no.abakus.comparison;
 
 public interface Person {
 
-    public String 
-    
+    public String getFirstName();
+    public String getSurname();
+
 }
