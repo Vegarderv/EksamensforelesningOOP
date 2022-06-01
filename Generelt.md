@@ -14,6 +14,8 @@
     For strenger bør `#equals` (eller `#equalsIgnoreCase`) også brukes, men for primitive typer (`int`, `float`, `double`, `boolean`, `char`, `long`) brukes `==`.
 4. Såkalt "type parameters" (e.g. `List<type parameter her>`) godtar ikke primitive 
 
+5. Alt pensum ligger her: https://www.ntnu.no/wiki/display/tdt4100/Faginnhold
+
 # Streams
 
 1. Forskjell på `#toList()` (IMMUTABLE) og `.collect(Collectors.toList())` (MUTABLE)
