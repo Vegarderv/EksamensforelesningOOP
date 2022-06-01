@@ -30,3 +30,9 @@ public boolean doesNameStartWithE(Person person) {
     return person.getName().startsWith("E");
 }
 ```
+
+Gjenbruker denne;
+
+```java
+Predicate<Person> predicate = this::doesNameStartWithE;
+```
