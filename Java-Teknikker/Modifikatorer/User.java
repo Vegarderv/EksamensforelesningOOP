@@ -7,9 +7,11 @@
  */
 public class User {
 
-    private String username, password;
-    private int userID;
-    static private int ID = 0;
+    private static int ID = 0;
+
+    private final String username;
+    private String password;
+    private final int userID;
 
     public User(String username, String password) {
         this.username = username;

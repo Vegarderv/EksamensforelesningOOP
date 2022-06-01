@@ -7,6 +7,7 @@
 **Protected**: Kommer tilbake til denne i arv.
 
 ### Andre modifikatorer:
+
 **Static**: brukes for delte dataer mellom ulike objekter av samme klasse
 
 **Final**: brukes til variabler som ikke endres
