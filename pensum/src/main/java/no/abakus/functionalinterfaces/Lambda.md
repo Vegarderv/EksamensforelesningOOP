@@ -13,11 +13,15 @@ Predicate<Person> predicate = new Predicate<Person>() {
         return person.getName().startsWith("E");
     }
 }
+Predicate<Person> predicate = new StartsWithEPredicate();
 ```
 
 Mye kode for veldig lite! Lambdaversjon;
 ```java
-Predicate<Person> predicate = person -> person.getName().startsWith("E");
+Predicate<Person> predicate = person -> {
+    System.out.println(person.getName());
+    return person.getName().startsWith("E");
+};
 ```
 (Husk paranteser dersom du skal ta inn flere verdier)
 
@@ -26,7 +30,7 @@ Predicate<Person> predicate = person -> person.getName().startsWith("E");
 Hva om vi har en metode allerede som gjør det vi ønsker? 
 
 ```java
-public boolean doesNameStartWithE(Person person) {
+public boolean doesNameStartWithE(Person person) {    
     return person.getName().startsWith("E");
 }
 ```
@@ -35,4 +39,5 @@ Gjenbruker denne;
 
 ```java
 Predicate<Person> predicate = this::doesNameStartWithE;
+Predicate<Person> predicate = person -> this.doesNameStartWithE(person);
 ```

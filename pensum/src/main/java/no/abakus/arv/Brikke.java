@@ -1,6 +1,6 @@
 package no.abakus.arv;
 
-public abstract class Brikke {
+public abstract class Brikke implements IBrikke {
     
     private int x;
     private int y;
