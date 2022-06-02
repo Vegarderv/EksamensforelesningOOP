@@ -1,4 +1,4 @@
-# Pensum
+# Pen(s)um
 
 ## Prosedyreorientert programmering:
  - uttrykk, datatyper og variabler
