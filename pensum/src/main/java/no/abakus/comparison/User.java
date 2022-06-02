@@ -23,4 +23,13 @@ public class User implements Person, Comparable<Person> {
     public int compareTo(Person person1) {
         return new PersonComparator().compare(this, person1);
     }
+
+    @Override
+    public String toString() {
+        return "User [firstName=" + firstName + ", surname=" + surname + "]";
+    }
+
+    public static void main(String[] args) {
+        new User("Vegard", surname)
+    }
 }
