@@ -18,5 +18,4 @@ public class Pawn extends Brikke {
         // TODO Auto-generated method stub
         
     }
-    
 }

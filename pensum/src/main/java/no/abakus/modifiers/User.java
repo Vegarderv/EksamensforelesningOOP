@@ -9,7 +9,7 @@ package no.abakus.modifiers;
  */
 public class User {
 
-    private static int ID = 0;
+    private int ID = 0;
 
     private final String username;
     private String password;

@@ -38,11 +38,15 @@ public class StreamExample {
     }
 
     public double getAverageScore() {
-        return this.getGradesAsNumbers().stream().mapToInt(Integer::intValue).sum() / this.javaGrades.size();
+        return ((double) this.getGradesAsNumbers().stream().reduce(0, (a, b) -> a + b)) / this.javaGrades.stream().filter(karakter -> karakter != 'F').count();
     }
 
     public static void main(String[] args) {
-        
+        StreamExample ex = new StreamExample();
+        System.out.println(ex.getJavaGrades());
+        System.out.println(ex.getNumOfGrades('B'));
+        System.out.println(ex.getGradesAsNumbers());
+        System.out.println(ex.getAverageScore());
     }
 
 }
