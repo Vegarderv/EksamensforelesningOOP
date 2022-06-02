@@ -45,8 +45,29 @@ public class MathController {
 	 */
 	@FXML
 	private void onCalculate() {
+		//TODO: Add valdation for TextFields
+		Character operator = typeSelector.getSelectionModel().getSelectedItem();
+		Integer firstInt = Integer.parseInt(firstField.getText());
+		Integer secondInt = Integer.parseInt(secondField.getText());
+		if (operator.equals('+')) { 
+			resultArea.setText(Integer.toString(firstInt + secondInt));
+		}
+		if (operator.equals('-')) { 
+			resultArea.setText(Integer.toString(firstInt - secondInt));
+		}
+		if (operator.equals('*')) { 
+			resultArea.setText(Integer.toString(firstInt * secondInt));
+		}
+		if (operator.equals('/')) { 
+			resultArea.setText(Double.toString(((double) firstInt) / secondInt));
+		}
 	}
 
 	
 	// Is there a method missing here? Where could it be?
+	@FXML
+	private void randomizeNumbers() {
+		firstField.setText(Integer.toString(rand.nextInt(100) + 1));
+		secondField.setText(Integer.toString(rand.nextInt(100) + 1));
+	}
 }

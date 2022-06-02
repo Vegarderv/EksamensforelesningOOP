@@ -15,7 +15,7 @@ public class AverageComputer {
    * @param initialValues
    */
   public AverageComputer(Collection<Integer> initialValues) {
-    this.values = initialValues;
+    this.values = new ArrayList<>(initialValues);
   }
 
   /**

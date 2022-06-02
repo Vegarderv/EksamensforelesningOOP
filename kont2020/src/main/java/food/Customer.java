@@ -1,30 +1,37 @@
 package food;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import food.def.ICustomer;
 
 public class Customer implements ICustomer {
 
-
-	// Add internal variables here:
-	
-	
+	private final String name;
+	private final Collection<MealOrder> orders;
+	private MealOrder lastOrder = null;
+		
 	/**
 	 * Create a new customer
 	 * 
 	 * @param name The name of the customer
 	 */
 	public Customer(String name) {
+		if (name == null || name.isBlank()) {
+			throw new IllegalArgumentException("Name is null/blank");
+		}
+
+		this.name = name;
+		this.orders = new ArrayList<>();
 	}
-	
 	
 	/**
 	 * 
 	 * @return A list containing all meals bought by this customer
 	 */
 	public Collection<MealOrder> getMealsOrdered() {
-		return null; // Dummy return value
+		return new ArrayList<>(this.orders);
 	}
 
 	/**
@@ -35,6 +42,9 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public void buyMeal(String meal, double price) {
+		MealOrder order = new MealOrder(meal, price);
+		this.orders.add(order);
+		this.lastOrder = order;
 	}
 	
 	
@@ -43,7 +53,7 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public int getNumberOfOrderedMeals() {
-		return 0; // Dummy return value
+		return this.orders.size();
 	}
 	
 	/**
@@ -51,7 +61,7 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public String getName() {
-		return null; // Dummy return value
+		return this.name;
 	}
 
 	/**
@@ -59,7 +69,7 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public String toString() {
-		return null; // dummy return value
+		return this.getName() + ": " + this.getNumberOfOrderedMeals();
 	}
 
 	/**
@@ -68,7 +78,7 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public MealOrder getLastOrderedMeal() {
-		return null; // Dummy return value
+		return this.lastOrder;
 	}
 	
 	/**
@@ -80,7 +90,13 @@ public class Customer implements ICustomer {
 	 */
 	@Override
 	public int timesEaten(String meal) {
-		return 0; // Dummy return value
+		if (meal == null || meal.isBlank()) {
+			throw new IllegalArgumentException();
+		}
+
+		return (int) this.orders.stream()
+			.filter(order -> order.getMeal().equals(meal))
+			.count();
 	}
 	
 	public static void main(String[] args) {
@@ -88,6 +104,6 @@ public class Customer implements ICustomer {
 		customer.buyMeal("pancakes", 100);
 		customer.buyMeal("pancakes", 75);
 		System.out.println("Skal være 2 kjøp: " + customer.getMealsOrdered().size());
-//		System.out.println("Skal være pris 75: " + customer.getLastOrderedMeal().getPrice()); // Som definert i README.
+		System.out.println("Skal være pris 75: " + customer.getLastOrderedMeal().getPrice()); // Som definert i README.
 	}
 }
