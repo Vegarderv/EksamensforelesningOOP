@@ -8,9 +8,20 @@ import food.def.PriceProvider;
  */
 public class RebateFreeEveryThousandSale implements PriceProvider {
 
+	private int counter;
+
 	@Override
 	public double providePrice(String meal, double price, Customer customer) {
-		return 0; // dummy return value
+		counter ++;
+		return counter % 1000 == 0 ? 0 : 1;
+		/*
+		 * Det samme som:
+		 * If (counter % 1000 == 0) {
+		 * 	return 0;
+		 * } else {
+		 * 	return 1;
+		 * }
+		 */
 	}
 
 
