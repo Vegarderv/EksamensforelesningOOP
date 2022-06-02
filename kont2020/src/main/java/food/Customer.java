@@ -2,7 +2,6 @@ package food;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 import food.def.ICustomer;
 

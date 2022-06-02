@@ -1,5 +1,6 @@
 package food;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import food.def.IKitchen;
@@ -10,9 +11,16 @@ import food.def.PriceProvider;
 public class Kitchen implements IKitchen {
 
 	// Add internal variables here:
+	private final Collection<String> recipes;
+	private final Collection<Customer> customers;
+	private double turnover;
+	private final Collection<PriceProvider> rebates;
 	
 	public Kitchen() {
 		super();
+		recipes = new ArrayList<>();
+		customers = new ArrayList<>();
+		rebates = new ArrayList<>();
 	}
 	
 	
@@ -24,6 +32,10 @@ public class Kitchen implements IKitchen {
 	 */
 	@Override
 	public void addCustomer(Customer customer) {
+		if (customer == null || customers.contains(customer)) {
+			throw new IllegalArgumentException();
+		}
+		customers.add(customer);
 	}
 
 	/**
@@ -32,6 +44,10 @@ public class Kitchen implements IKitchen {
 	 */
 	@Override
 	public void addRecipe(String recipe) {
+		if (recipe == null || recipes.contains(recipe)) {
+			throw new IllegalArgumentException();
+		}
+		recipes.add(recipe);
 	}
 	
 	/**
@@ -41,7 +57,7 @@ public class Kitchen implements IKitchen {
 	 */
 	@Override
 	public double getTurnover() {
-		return 0; // Dummy return value
+		return turnover;
 	}
 
 	
@@ -50,7 +66,7 @@ public class Kitchen implements IKitchen {
 	 */
 	@Override
 	public Collection<String> getRecipes() {
-		return null; // Dummy return value
+		return new ArrayList<>(recipes);
 	}
 	
 	/**
@@ -59,7 +75,7 @@ public class Kitchen implements IKitchen {
 	 * @return The customer with the given name, or null if no such customer is registered
 	 */
 	public Customer getCustomer(String name) {
-		return null; // dummy return value
+		return customers.stream().filter(customer -> customer.getName().equals(name)).findAny().orElse(null);
 	}
 
 	/**
@@ -78,6 +94,12 @@ public class Kitchen implements IKitchen {
 	 */
 	@Override
 	public void provideMeal(String meal, double price, String customerName) {
+		if(!recipes.contains(meal) || getCustomer(customerName) == null) {
+			throw new IllegalStateException();
+		}
+		price = computeActualPrice(meal, price, getCustomer(customerName));
+		getCustomer(customerName).buyMeal(meal, price);
+		turnover += price;
 	}
 		
 	/**
@@ -91,13 +113,25 @@ public class Kitchen implements IKitchen {
 	 * @return The resulting price after all rebates have been considered.
 	 */
 	double computeActualPrice(String meal, double price, Customer customer) {
-		return 0; // Dummy return value
+		return price * rebates.stream()
+		.map(rebate -> rebate.providePrice(meal, price, customer))
+		.reduce(1.0, (a, b) -> a * b);
 	}
 	
 	// Exercise 2.3 - Delegation - these may not be all methods you need to create!
 	@Override
 	public void addPriceProvider(PriceProvider pp) {
-		
+		if (pp == null || rebates.contains(pp)){
+			throw new IllegalArgumentException();
+		}
+		rebates.add(pp);
+	}
+
+	public void removePriceProvider(PriceProvider pp) {
+		if (!rebates.contains(pp)) {
+			throw new IllegalArgumentException();
+		}
+		rebates.remove(pp);
 	}
 
 	// Exercise 2.4 - Observerer - these may not be all methods you need to create!

@@ -16,7 +16,9 @@ public class RebateEveryFifthBuyFromSameCustomer implements PriceProvider {
 	 */
 	@Override
 	public double providePrice(String meal, double price, Customer customer) {
-		return 0; // dummy return value
+		if (customer.getMealsOrdered().size() % 5 == 0) {
+			return 0.5;
+		} return 1;
 	}
 
 }
