@@ -21,8 +21,11 @@ import food.def.KitchenObserver;
 public class ObserveToPrintTopRevenue implements KitchenObserver {
 
 	// Internal variables go here:
+	private final HashMap<String, Double> revenuePerMeal;
 	
-	
+	public ObserveToPrintTopRevenue() {
+		revenuePerMeal = new HashMap<>();
+	}
 	/**
 	 * 
 	 * @return A string that contains the string 'meal: price' for all meals that have the highest revenue, 
@@ -30,7 +33,15 @@ public class ObserveToPrintTopRevenue implements KitchenObserver {
 	 * If no meal has been sold: returns an empty string.
 	 */
 	public String getTopSellers() {
-		return null; // dummy return value
+		// Denne finner den høyeste verdien som er solgt for.
+		double maxRevenue = Collections.max(revenuePerMeal.values());
+		String outString = "";
+		for (String meal : revenuePerMeal.keySet()) {
+			if (revenuePerMeal.get(meal) == maxRevenue){
+				outString += meal + ": " + revenuePerMeal.get(meal) + "\n";
+			}
+		}
+		return outString;
 	}
 	
 
@@ -42,6 +53,11 @@ public class ObserveToPrintTopRevenue implements KitchenObserver {
 	 */
 	@Override
 	public void mealOrder(String meal, double price) {
+		if(! revenuePerMeal.containsKey(meal)) {
+			revenuePerMeal.put(meal, 0.0);
+		}
+		revenuePerMeal.put(meal, revenuePerMeal.get(meal) + price);
+		System.out.println(getTopSellers());
 	}
 	
 

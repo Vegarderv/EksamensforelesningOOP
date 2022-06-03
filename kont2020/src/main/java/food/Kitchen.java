@@ -15,12 +15,14 @@ public class Kitchen implements IKitchen {
 	private final Collection<Customer> customers;
 	private double turnover;
 	private final Collection<PriceProvider> rebates;
+	private final Collection<KitchenObserver> observers;
 	
 	public Kitchen() {
 		super();
 		recipes = new ArrayList<>();
 		customers = new ArrayList<>();
 		rebates = new ArrayList<>();
+		observers = new ArrayList<>();
 	}
 	
 	
@@ -97,9 +99,10 @@ public class Kitchen implements IKitchen {
 		if(!recipes.contains(meal) || getCustomer(customerName) == null) {
 			throw new IllegalStateException();
 		}
-		price = computeActualPrice(meal, price, getCustomer(customerName));
-		getCustomer(customerName).buyMeal(meal, price);
-		turnover += price;
+		double finalPrice = computeActualPrice(meal, price, getCustomer(customerName));
+		getCustomer(customerName).buyMeal(meal, finalPrice);
+		turnover += finalPrice;
+		observers.stream().forEach(obs -> obs.mealOrder(meal, finalPrice));
 	}
 		
 	/**
@@ -137,7 +140,17 @@ public class Kitchen implements IKitchen {
 	// Exercise 2.4 - Observerer - these may not be all methods you need to create!
 	@Override
 	public void addObserver(KitchenObserver ko) {
-		
+		if (ko == null || observers.contains(ko)) {
+			throw new IllegalArgumentException();
+		}
+		observers.add(ko);
+	}
+
+	public void removeObserver(KitchenObserver ko) {
+		if (ko == null || !observers.contains(ko)) {
+			throw new IllegalArgumentException();
+		}
+		observers.remove(ko);
 	}
 
 	
